@@ -38,10 +38,16 @@ public class ConsoleApplication
     private readonly IExchangeRateService _exchangeRateService;
     private readonly CurrencyConverter _currencyConverter;
 
-    public ConsoleApplication(IExchangeRateService exchangeRateService, CurrencyConverter currencyConverter)
-    {
-        _exchangeRateService = exchangeRateService;
-        _currencyConverter = currencyConverter;
+	public ConsoleApplication(IExchangeRateService exchangeRateService, CurrencyConverter currencyConverter, IConfiguration configuration)
+	{
+		_exchangeRateService = exchangeRateService;
+		_currencyConverter = currencyConverter;
+		var apiKey = configuration["ExchangeRateApiKey"];
+		Console.WriteLine($"DEBUG: A chave da API é: '{apiKey}'"); // Isso vai mostrar se a chave foi lida
+		if (string.IsNullOrEmpty(apiKey))
+		{
+			Console.WriteLine("DEBUG: A chave não foi encontrada nas configurações!");
+		}
     }
 
     public async Task Run()
